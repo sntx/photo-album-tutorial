@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   FlatList,
+  View,
   SafeAreaView,
   Image,
   LayoutChangeEvent,
 } from "react-native";
 import Axios from "axios";
-import { useStyled } from "react-native-reflect";
+import { useStyled, styled } from "react-native-reflect";
 
 // Items used by FlatList, contains list of images.
 type Items = { links: [{ href: string }] }[];
@@ -21,6 +22,23 @@ type AxiosData = {
 
 const GET_GALAXY_IMAGES =
   "https://images-api.nasa.gov/search?q=spiral%20galaxies&media_type=image";
+
+const Container = styled(View, {
+  padding: 2,
+});
+
+const ImageContainer = styled(View, {
+  marginRight: 3,
+});
+
+const MyImage = ({ width, height, uri }) => {
+  const { style } = useStyled({
+    style: {
+      // STODONEXT subtract padding or margin from <Image> width and height
+      // so all images are square
+    },
+  });
+};
 
 export default function App() {
   const [isLoading, setLoading] = useState(true);
@@ -69,25 +87,29 @@ export default function App() {
   // Finally we render each of our images inside FlatList's renderImage prop
   return (
     <SafeAreaView>
-      {isLoading ? (
-        <ActivityIndicator />
-      ) : (
-        <FlatList
-          data={data}
-          numColumns={attrs.numColumns}
-          // NOTE: we need to change FlatList's key to be able to change
-          // numColumns on the fly. This is a React Native specification.
-          key={attrs.numColumns}
-          onLayout={onLayout}
-          keyExtractor={(_item, index) => index.toString()}
-          renderItem={({ item }) => (
-            <Image
-              style={{ width: imageWidth, height: imageHeight }}
-              source={{ uri: item.links[0].href }}
-            />
-          )}
-        />
-      )}
+      <Container>
+        {isLoading ? (
+          <ActivityIndicator />
+        ) : (
+          <FlatList
+            data={data}
+            numColumns={attrs.numColumns}
+            // NOTE: we need to change FlatList's key to be able to change
+            // numColumns on the fly. This is a React Native specification.
+            key={attrs.numColumns}
+            onLayout={onLayout}
+            keyExtractor={(_item, index) => index.toString()}
+            renderItem={({ item }) => (
+              <ImageContainer>
+                <Image
+                  style={{ width: imageWidth, height: imageHeight }}
+                  source={{ uri: item.links[0].href }}
+                />
+              </ImageContainer>
+            )}
+          />
+        )}
+      </Container>
     </SafeAreaView>
   );
 }

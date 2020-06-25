@@ -281,3 +281,11 @@ const { attrs } = useStyled({
 const imageWidth = flatListWidth / attrs.numColumns;
 const imageHeight = imageWidth / attrs.imageAspectRatio;
 ```
+
+STODONEXT: finish this as part 1, then continue with part 2
+
+# Part 2
+
+## Making our App Beautiful
+
+So far we have been working on displaying the images in a responsive grid with variable number of columns. Let's continue by adding other responsive elements and styles.
