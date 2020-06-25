@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, FlatList, View, Image } from "react-native";
+import { ActivityIndicator, FlatList, SafeAreaView, Image } from "react-native";
 import Axios from "axios";
+import { useStyled } from "react-native-reflect";
 
 // Items used by FlatList, contains list of images.
 type Items = { links: [{ href: string }] }[];
@@ -38,17 +39,27 @@ export default function App() {
       .finally(() => setLoading(false));
   }, []);
 
+  const { attrs } = useStyled({
+    attrs: {
+      numColumns: [1, 3, 4],
+    },
+  });
+
   // After loading is done "isLoading", we render a FlatList with the data that
   // was set on the success axios callback above "setData(...)"
   //
   // Finally we render each of our images inside FlatList's renderImage prop
   return (
-    <View>
+    <SafeAreaView>
       {isLoading ? (
         <ActivityIndicator />
       ) : (
         <FlatList
           data={data}
+          numColumns={attrs.numColumns}
+          // NOTE: we need to change FlatList's key to be able to change
+          // numColumns on the fly. This is a React Native specification.
+          key={attrs.numColumns}
           keyExtractor={(_item, index) => index.toString()}
           renderItem={({ item }) => (
             <Image
@@ -58,6 +69,6 @@ export default function App() {
           )}
         />
       )}
-    </View>
+    </SafeAreaView>
   );
 }

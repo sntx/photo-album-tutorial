@@ -163,3 +163,54 @@ export default function App() {
   );
 }
 ```
+
+## Responsive Number of Columns
+
+Let's make our gallery responsive as follows:
+
+- Display single column list of images on small screens
+- Display three columns image grid on medium size screens
+- Display four columns image grid on large screens
+
+To accomplish this we'll use `react-native-reflect` library.
+
+```bash
+yarn add react-native-reflect
+```
+
+React Native Reflect defines a `useStyled()` hook that let's us easily define responsive props:
+
+```typescript
+import { useStyled } from "react-native-reflect";
+```
+
+Inside `App()`
+
+```typescript
+const { attrs } = useStyled({
+  attrs: {
+    numColumns: [1, 3, 4],
+  },
+});
+```
+
+Then, use `attrs.numColumns` responsive prop with `FlatList`
+
+```typescript
+<FlatList
+  data={data}
+  numColumns={attrs.numColumns}
+  // NOTE: we need to change FlatList's key to be able to change
+  // numColumns on the fly. This is a React Native specification.
+  key={attrs.numColumns}
+  keyExtractor={(_item, index) => index.toString()}
+  renderItem={({ item }) => (
+    <Image
+      style={{ height: 100, width: 100 }}
+      source={{ uri: item.links[0].href }}
+    />
+  )}
+/>
+```
+
+Voilà! Resize your browser window and/or test with different native devices to see how the number of columns update with different screen widths.

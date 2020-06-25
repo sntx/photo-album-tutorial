@@ -4325,6 +4325,13 @@ react-is@^16.12.0, react-is@^16.8.1, react-is@^16.8.4:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
 
+react-native-reflect@^0.1.4:
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/react-native-reflect/-/react-native-reflect-0.1.4.tgz#7e7c6e1e546658a71da2fa5a1480455cb4a605a7"
+  integrity sha512-hD83W7PkdECD1YsvqhIwb2xwegKeOxnM7jN4NJDf6z5zlhNJrv2Qsg+5yGHfjvhGx2rMzOffvorUYL9CtDNjaw==
+  dependencies:
+    lodash "^4.17.15"
+
 react-native-screens@~2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/react-native-screens/-/react-native-screens-2.2.0.tgz#cc4cdf17426fdda97ad93a5e812a1899390f1978"
