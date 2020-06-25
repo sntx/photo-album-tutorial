@@ -2,12 +2,22 @@ import React, { useEffect, useState } from "react";
 import { ActivityIndicator, FlatList, View, Image } from "react-native";
 import Axios from "axios";
 
+// Items used by FlatList, contains list of images.
+type Items = { links: [{ href: string }] }[];
+
+// Data returned by HTTP request
+type AxiosData = {
+  collection: {
+    items: Items;
+  };
+};
+
 const GET_GALAXY_IMAGES =
   "https://images-api.nasa.gov/search?q=spiral%20galaxies&media_type=image";
 
 export default function App() {
   const [isLoading, setLoading] = useState(true);
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<Items>([]);
 
   // Here we are calling Axios.get() inside React's useEffect hook. We need to
   // get our async data like this so our component can properly update it's
@@ -19,9 +29,9 @@ export default function App() {
   // More on useEffect(): https://reactjs.org/docs/hooks-effect.html
   //
   useEffect(() => {
-    Axios.get(GET_GALAXY_IMAGES)
+    Axios.get<AxiosData>(GET_GALAXY_IMAGES)
       .then(({ data }) => {
-        console.log("data.collection.itmes", data.collection.items);
+        console.log("data.collection.items", data.collection.items);
         setData(data.collection.items);
       })
       .catch((error) => console.error(error))
