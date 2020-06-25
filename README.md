@@ -214,3 +214,70 @@ Then, use `attrs.numColumns` responsive prop with `FlatList`
 ```
 
 Voilà! Resize your browser window and/or test with different native devices to see how the number of columns update with different screen widths.
+
+## Fit Images to Screen's Width
+
+So far, we have renderd our images with a fixed 100x100 width and height. Let's change this such as our gallery takes 100% of the screen's width and the images inside stretch to fit. Keep in mind that for this tutorial, we'll display all images with the same aspect ratio, so all our calculations are based on this assumption.
+
+Our first step is to get `FlatList`'s width using `FlatList`'s `onLayout` prop.
+
+Add the following to App.tsx:
+
+```typescript
+// keep track of FlatList's width as screen resizes
+const [flatListWidth, setFlatListWidth] = useState(0);
+```
+
+```typescript
+// Update FlatList's width
+const onLayout = (obj: LayoutChangeEvent) => {
+  const width = obj.nativeEvent.layout.width;
+
+  // avoid unnecessary updates
+  if (width === flatListWidth) return;
+
+  setFlatListWidth(width);
+};
+```
+
+Calculate image dimensions using an aspect ratio, the width of the `FlatList` and the number of columns. Try changing `imageAspectRatio` with values such as `16/9`, `4/3`, `3/4` etc.
+
+```typescript
+const imageAspectRatio = 1;
+const imageWidth = flatListWidth / attrs.numColumns;
+const imageHeight = imageWidth / imageAspectRatio;
+```
+
+Add `onLayout` prop and update `Image`'s style with calculated dimensions
+
+```typescript
+<FlatList
+  ...
+  onLayout={onLayout}
+  renderItem={({ item }) => (
+    <Image
+      style={{ width: imageWidth, height: imageHeight }}
+      source={{ uri: item.links[0].href }}
+    />
+  )}
+  ...
+/>
+)}
+```
+
+### Responsive Aspect Ratio
+
+What about displaying images with different aspect ratios on different screen sizes? No problem, that's very easy with `react-native-reflect`! we just need to provide one more value to `useStyled()`.
+
+```typescript
+const { attrs } = useStyled({
+  attrs: {
+    numColumns: [1, 3, 4],
+    // Aspect ration of 4 / 3 on smaller screens and 1 on larger screens
+    imageAspectRatio: [4 / 3, 1],
+  },
+});
+
+const imageWidth = flatListWidth / attrs.numColumns;
+const imageHeight = imageWidth / attrs.imageAspectRatio;
+```
