@@ -1,4 +1,4 @@
-# Building a Responsive React Native Photo Album for Mobile and Web
+# Build a Responsive React Native Photo Album
 
 ## Description
 
@@ -8,9 +8,9 @@ Our photo album will display images in a grid with variable number of columns, i
 
 After finishing the tutorial you will learn how to:
 
-- Create a responsive universal React Native app using Expo
-- Create a responsive image grid React Native component
-- Create a responsive, theme-based UI
+- Create a responsive image gallery (Part 1)
+- Improve our image gallery component (Part 2)
+- Create a responsive, theme-based UI (Part 3)
 
 ## Contents
 

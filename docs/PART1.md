@@ -1,4 +1,18 @@
-# Building a Responsive React Native Photo Album for Mobile and Web (Part 1)
+# Build a Responsive React Native Photo Album (Part 1)
+
+## Description
+
+The following tutorial explains step by step how to create a responsive photo album with React Native that works on Web and Native devices.
+
+Our photo album will display images in a grid with variable number of columns, image aspect ratio, grid separation, etc. all in a responsive manner.
+
+After finishing the tutorial you will learn how to:
+
+- Create a responsive image gallery (Part 1)
+- Create a re-usable, customizable image gallery component (Part 2)
+- Create a responsive, theme-based UI (Part 3)
+
+## Contents
 
 - [Home](../README.md)
 - [Part 2 - Improved Responsive Image Grid](./PART2.md)
@@ -6,7 +20,7 @@
 
 ## Create a new Expo app
 
-(NOTE: this tutorial is using expo-cli@3.21.10) and choose "blank (TypeScript)" option when asked.
+Create a new Expo app, choosing "blank (TypeScript)" option when asked.
 
 ```bash
 expo init photo-album-tutorial
@@ -33,69 +47,7 @@ Replace the contents of `App.tsx` with the following and follow the comments in 
 
 ```typescript
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, FlatList, View, Image } from "react-native";
-import Axios from "axios";
-
-const GET_GALAXY_IMAGES =
-  "https://images-api.nasa.gov/search?q=spiral%20galaxies&media_type=image";
-
-export default function App() {
-  const [isLoading, setLoading] = useState(true);
-  const [data, setData] = useState([]);
-
-  // Here we are calling Axios.get() inside React's useEffect hook. We need to
-  // get our async data like this so our component can properly update it's
-  // state.
-  //
-  // For useEffect() to be called only once, we add an empty array as the second
-  // argument of useEffect()
-  //
-  // More on useEffect(): https://reactjs.org/docs/hooks-effect.html
-  //
-  useEffect(() => {
-    Axios.get(GET_GALAXY_IMAGES)
-      .then(({ data }) => {
-        console.log("data.collection.itmes", data.collection.items);
-        setData(data.collection.items);
-      })
-      .catch((error) => console.error(error))
-      .finally(() => setLoading(false));
-  }, []);
-
-  // After loading is done "isLoading", we render a FlatList with the data that
-  // was set on the success axios callback above "setData(...)"
-  //
-  // Finally we render each of our images inside FlatList's renderImage prop
-  return (
-    <View>
-      {isLoading ? (
-        <ActivityIndicator />
-      ) : (
-        <FlatList
-          data={data}
-          keyExtractor={(_item, index) => index.toString()}
-          renderItem={({ item }) => (
-            <Image
-              style={{ height: 100, width: 100 }}
-              source={{ uri: item.links[0].href }}
-            />
-          )}
-        />
-      )}
-    </View>
-  );
-}
-```
-
-## Adding Types
-
-So far we haven't looked at TypeScript yet, let's update our App component with types. replace contents of App.tsx with the following and follow the comments in the code for the newly added types.
-
-We're adding `Items` and `AxiosData` types and we're providing them as generics to `Axios.get<AxiosData>` and `useState<Items>([])` functions. The rest of the types are infered automatically, for example, `FlatList`'s `renderItem(({ item }))`'s `item` object inferes it's correct type based on `FlatLists`'s `data` prop. Beautiful!
-
-```typescript
-import React, { useEffect, useState } from "react";
-import { ActivityIndicator, FlatList, View, Image } from "react-native";
+import { ActivityIndicator, FlatList, SafeAreaView, Image } from "react-native";
 import Axios from "axios";
 
 // Items used by FlatList, contains list of images.
@@ -115,19 +67,10 @@ export default function App() {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState<Items>([]);
 
-  // Here we are calling Axios.get() inside React's useEffect hook. We need to
-  // get our async data like this so our component can properly update it's
-  // state.
-  //
-  // For useEffect() to be called only once, we add an empty array as the second
-  // argument of useEffect()
-  //
-  // More on useEffect(): https://reactjs.org/docs/hooks-effect.html
-  //
+  // Get our data
   useEffect(() => {
     Axios.get<AxiosData>(GET_GALAXY_IMAGES)
       .then(({ data }) => {
-        console.log("data.collection.items", data.collection.items);
         setData(data.collection.items);
       })
       .catch((error) => console.error(error))
@@ -137,9 +80,9 @@ export default function App() {
   // After loading is done "isLoading", we render a FlatList with the data that
   // was set on the success axios callback above "setData(...)"
   //
-  // Finally we render each of our images inside FlatList's renderImage prop
+  // Then we render each of our images inside FlatList's renderImage prop
   return (
-    <View>
+    <SafeAreaView>
       {isLoading ? (
         <ActivityIndicator />
       ) : (
@@ -154,10 +97,14 @@ export default function App() {
           )}
         />
       )}
-    </View>
+    </SafeAreaView>
   );
 }
 ```
+
+Your App should like like this:
+
+![Screens 01](./screenshots/screens-01.jpg)
 
 ## Responsive Number of Columns
 
@@ -173,13 +120,13 @@ To accomplish this we'll use `react-native-reflect` library.
 yarn add react-native-reflect
 ```
 
-React Native Reflect defines a `useStyled()` hook that let's us easily define responsive props:
+React Native Reflect defines a `useStyled()` hook that let's us easily define responsive props. Add the following to `App.tsx`:
 
 ```typescript
 import { useStyled } from "react-native-reflect";
 ```
 
-Inside `App()`
+Inside `App()` function:
 
 ```typescript
 const { attrs } = useStyled({
@@ -210,13 +157,17 @@ Then, use `attrs.numColumns` responsive prop with `FlatList`
 
 Voilà! Resize your browser window and/or test with different native devices to see how the number of columns update with different screen widths.
 
+![Screens 01](./screenshots/screens-02.jpg)
+
 ## Fit Images to Screen's Width
 
-So far, we have renderd our images with a fixed 100x100 width and height. Let's change this such as our gallery takes 100% of the screen's width and the images inside stretch to fit. Keep in mind that for this tutorial, we'll display all images with the same aspect ratio, so all our calculations are based on this assumption.
+So far, we have renderd our images with a fixed 100x100 width and height dimensions. Let's change this such as our gallery takes 100% of the screen's width and the images inside stretch to fit. Keep in mind that for this tutorial, we'll display all images with the same aspect ratio, so all our calculations are based on this assumption.
+
+Moreover, as of the date of writing this tutorial, React Native Image component requires width and height explicit values. Because of this, we will calculate the actual dimensions of the images based on the number of columns and a customly assigned aspect ratio.
 
 Our first step is to get `FlatList`'s width using `FlatList`'s `onLayout` prop.
 
-Add the following to App.tsx:
+Add the following to `App()` function:
 
 ```typescript
 // keep track of FlatList's width as screen resizes
@@ -260,6 +211,10 @@ Add `onLayout` prop and update `Image`'s style with calculated dimensions
 )}
 ```
 
+Your App should look like this:
+
+![Screens 03](screenshots/screens-03.jpg)
+
 ### Responsive Aspect Ratio
 
 What about displaying images with different aspect ratios on different screen sizes? No problem, that's very easy with `react-native-reflect`! we just need to provide one more value to `useStyled()`.
@@ -273,6 +228,19 @@ const { attrs } = useStyled({
   },
 });
 
+// DELETE LINE const imageAspectRatio = 1;
 const imageWidth = flatListWidth / attrs.numColumns;
 const imageHeight = imageWidth / attrs.imageAspectRatio;
 ```
+
+And that's all for Part 1! So far we have created an image gallery that works on web and native devices. Our image gallery has responsive number of columns and image's aspect ratio. Cool!
+
+![Screens 04](./screenshots/screens-04.jpg)
+
+### Next Steps
+
+On Part 2, we will add more options to our image gallery, such as spacing between images. We will also convert our image gallery into it's own component!
+
+### Links
+
+Tutorial's source code: https://github.com/sntx/photo-album-tutorial
