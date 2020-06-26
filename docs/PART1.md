@@ -243,4 +243,5 @@ On Part 2, we will add more options to our image gallery, such as spacing betwee
 
 ### Links
 
-Tutorial's source code: https://github.com/sntx/photo-album-tutorial
+- Tutorial's source code: https://github.com/sntx/photo-album-tutorial
+- React Native Reflect: https://sntx.github.io/react-native-reflect
