@@ -104,7 +104,7 @@ export default function App() {
 
 Your App should like like this:
 
-![Screens 01](./screenshots/screens-01.jpg)
+![Screens 01](https://github.com/sntx/photo-album-tutorial/raw/master/docs/screenshots/screens-01.jpg)
 
 ## Responsive Number of Columns
 
@@ -157,7 +157,7 @@ Then, use `attrs.numColumns` responsive prop with `FlatList`
 
 Voilà! Resize your browser window and/or test with different native devices to see how the number of columns update with different screen widths.
 
-![Screens 01](./screenshots/screens-02.jpg)
+![Screens 02](https://github.com/sntx/photo-album-tutorial/raw/master/docs/screenshots/screens-02.jpg)
 
 ## Fit Images to Screen's Width
 
@@ -213,7 +213,7 @@ Add `onLayout` prop and update `Image`'s style with calculated dimensions
 
 Your App should look like this:
 
-![Screens 03](screenshots/screens-03.jpg)
+![Screens 03](https://github.com/sntx/photo-album-tutorial/raw/master/docs/screenshots/screens-03.jpg)
 
 ### Responsive Aspect Ratio
 
@@ -235,7 +235,7 @@ const imageHeight = imageWidth / attrs.imageAspectRatio;
 
 And that's all for Part 1! So far we have created an image gallery that works on web and native devices. Our image gallery has responsive number of columns and image's aspect ratio. Cool!
 
-![Screens 04](./screenshots/screens-04.jpg)
+![Screens 04](https://github.com/sntx/photo-album-tutorial/raw/master/docs/screenshots/screens-04.jpg)
 
 ### Next Steps
 
