@@ -22,15 +22,7 @@ export default function App() {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState<Items>([]);
 
-  // Here we are calling Axios.get() inside React's useEffect hook. We need to
-  // get our async data like this so our component can properly update it's
-  // state.
-  //
-  // For useEffect() to be called only once, we add an empty array as its
-  // second argument.
-  //
-  // More on useEffect(): https://reactjs.org/docs/hooks-effect.html
-  //
+  // Get our data
   useEffect(() => {
     Axios.get<AxiosData>(GET_GALAXY_IMAGES)
       .then(({ data }) => {
