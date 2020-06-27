@@ -213,7 +213,7 @@ Your App should look like this:
 
 ![Screens 06](https://github.com/sntx/photo-album-tutorial/raw/master/docs/screenshots/screens-06.jpg)
 
-That's all for Part 2! So far we have a created a responsive Image gallery in React Native that adapts to different screen sizes by providing three responsive attribute values: `numColumns`, `imageAspectRatio` and `gridGap`. Great!
+That's all for Part 2! So far we have a created a responsive Image gallery in React Native that adapts to different screen sizes by providing three responsive attribute values: `numColumns`, `imageAspectRatio` and `gridGap`. Combining different values for these three attributes gives us a lot of flexibility!
 
 ### Next Steps
 
