@@ -1,4 +1,6 @@
-# Build a Responsive React Native Photo Album
+# Responsive UX Design with React Native Reflect
+
+![Screens 06](https://github.com/sntx/photo-album-tutorial/raw/master/docs/screenshots/screens-06.jpg)
 
 ## Description
 
