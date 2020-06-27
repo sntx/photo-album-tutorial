@@ -50,10 +50,7 @@ export default function App() {
     },
   });
 
-  // After loading is done "isLoading", we render a FlatList with the data that
-  // was set on the success axios callback above "setData(...)"
-  //
-  // Finally we render each of our images inside FlatList's renderImage prop
+  // After loading is done "isLoading", we render our images using <ImageGrid/>
   return (
     <SafeAreaView>
       {isLoading ? (

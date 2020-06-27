@@ -14,7 +14,7 @@ After finishing the tutorial you will learn how to:
 
 ## Contents
 
-- [Home](../README.md)
+- [Part 1 - Responsive Image Grid](./PART1.md)
 - [Part 2 - Improved Responsive Image Grid](./PART2.md)
 - [Part 3 - Responsive UI and Theme](./PART3.md)
 
