@@ -1,8 +1,8 @@
-# Build a Responsive React Native Photo Album (Part 2)
+# Responsive UX Design with React Native Reflect (Part 2)
 
 ## Description
 
-The following tutorial explains step by step how to create a responsive photo album with React Native that works on Web and Native devices.
+The following tutorial explains step by step how to create a responsive photo app album with React Native and [React Native Reflect](https://sntx.github.io/react-native-reflect) that works on Web and Native devices.
 
 Our photo album will display images in a grid with variable number of columns, image aspect ratio, grid separation, etc. all in a responsive manner.
 
@@ -10,7 +10,7 @@ After finishing the tutorial you will learn how to:
 
 - Create a responsive image gallery (Part 1)
 - Create a re-usable, customizable image gallery component (Part 2)
-- Create a responsive, theme-based UI (Part 3)
+- Create universal, responsive and theme-based UIs! (Part 3)
 
 ## Contents
 
@@ -22,7 +22,7 @@ After finishing the tutorial you will learn how to:
 
 **NOTE: this is Part 2 of this tutorial series. To continue from here you will need to have completed [Part 1](./PART1.md)**
 
-On [Part 1](./PART1.md) of this tutorial series we displayed a grid of images with a fixed aspect ratio, on part 2 we will add spacing to our grid, similar to `grid-spacing` `CSS` property. To do so we will calculate the explicit dimensions of the images based on the width of our container and spacing. These calculations are required in React Native, since React Native requires explicit dimensions to be provided to Image components.
+On [Part 1](./PART1.md) of this tutorial series we displayed a grid of images with a fixed aspect ratio, on part 2 we will add spacing to our grid, similar to `grid-spacing`'s `CSS` property. To do so we will calculate the explicit dimensions of the images based on the width of the container and the spacing. These calculations are required in React Native, since React Native requires explicit dimensions to be provided to Image components.
 
 Below is a sketch of all the math we need to make this work:
 
