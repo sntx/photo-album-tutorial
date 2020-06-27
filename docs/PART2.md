@@ -25,3 +25,11 @@ After finishing the tutorial you will learn how to:
 On [Part 1](./PART1.md) of this tutorial series we displayed a grid of images with a fixed aspect ratio, on part 2 we will add spacing to our grid, similar to `grid-spacing` `CSS` property. To do so we will calculate the explicit dimensions of the images based on the width of our container and spacing. These calculations are required in React Native, since React Native requires explicit dimensions to be provided to Image components.
 
 Below is a sketch of all the math we need to make this work:
+
+![Grid Calculations 01](https://github.com/sntx/photo-album-tutorial/raw/master/docs/images/grid-calculations-01.jpg)
+
+Our strategy for creating grid spacing is as follows:
+
+- Calculate exact image dimensions.
+- Add `marginRight` style to all images, except the last images on rows.
+- Add `marginBottom` style to all images.
