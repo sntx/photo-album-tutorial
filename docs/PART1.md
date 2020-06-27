@@ -215,7 +215,7 @@ Your App should look like this:
 
 ![Screens 03](https://github.com/sntx/photo-album-tutorial/raw/master/docs/screenshots/screens-03.jpg)
 
-### Responsive Aspect Ratio
+## Responsive Aspect Ratio
 
 What about displaying images with different aspect ratios on different screen sizes? No problem, that's very easy with `react-native-reflect`! we just need to provide one more value to `useStyled()`.
 
@@ -237,11 +237,11 @@ And that's all for Part 1! So far we have created an image gallery that works on
 
 ![Screens 04](https://github.com/sntx/photo-album-tutorial/raw/master/docs/screenshots/screens-04.jpg)
 
-### Next Steps
+## Next Steps
 
 On Part 2, we will add more options to our image gallery, such as spacing between images. We will also convert our image gallery into it's own component!
 
-### Links
+## Links
 
 - Tutorial's source code: https://github.com/sntx/photo-album-tutorial
 - React Native Reflect: https://sntx.github.io/react-native-reflect
