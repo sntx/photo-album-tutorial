@@ -175,3 +175,41 @@ export default function App() {
   );
 }
 ```
+
+Your App should like like this:
+
+![Screens 05](https://github.com/sntx/photo-album-tutorial/raw/master/docs/screenshots/screens-05.jpg)
+
+
+# Responsive Grid Spacing
+
+Finally, let's make the grid spacing of our ImageGrid responsive. To do so, just define a new responsive array, `gridGap`, with `useStyled()`:
+
+```typescript
+const { attrs } = useStyled({
+  attrs: {
+    // 1 on small screens, 3 on medium screens, 4 on large screens
+    numColumns: [1, 3, 4],
+    // 4/3 on small screens, 1 on medium and large screens
+    imageAspectRatio: [4 / 3, 1],
+    // 5 on small screens, 10 on medium screens, 20 on large screens
+    gridGap: [5, 10, 20],
+  },
+});
+```
+
+And pass the value to `ImageGrid` component:
+
+```typescript
+<ImageGrid
+  data={data}
+  numColumns={attrs.numColumns}
+  aspectRatio={attrs.imageAspectRatio}
+  gridGap={attrs.gridGap}
+/>
+```
+
+Your App should look like this:
+
+![Screens 06](https://github.com/sntx/photo-album-tutorial/raw/master/docs/screenshots/screens-06.jpg)
+

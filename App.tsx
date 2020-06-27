@@ -39,6 +39,8 @@ export default function App() {
       numColumns: [1, 3, 4],
       // 4/3 on small screens, 1 on medium and large screens
       imageAspectRatio: [4 / 3, 1],
+      // 5 on small screens, 10 on medium screens, 20 on large screens
+      gridGap: [5, 10, 20],
     },
   });
 
@@ -52,7 +54,7 @@ export default function App() {
           data={data}
           numColumns={attrs.numColumns}
           aspectRatio={attrs.imageAspectRatio}
-          gridGap={20}
+          gridGap={attrs.gridGap}
         />
       )}
     </SafeAreaView>
