@@ -11,7 +11,7 @@ import {
 
 const theme: Theme = {
   ...defaultTheme,
-  colors: { gray0: "#EAEBEE" },
+  colors: { gray0: "#EAEBEE", primary0: "#E9F0FE" },
   space: [0, 2, 4, 8, 16, 20, 32, 64, 128, 256],
   sizes: [0, 2, 4, 8, 16, 20, 32, 64, 128, 256],
   radii: [0, 15, 30],
