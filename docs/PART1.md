@@ -2,7 +2,7 @@
 
 ## Description
 
-The following tutorial explains step by step how to create a responsive photo album app with React Native and [React Native Reflect](https://sntx.github.io/react-native-reflect) that works on Web and Native devices.
+The following tutorial explains step by step how to create a responsive photo album application with React Native and [React Native Reflect](https://sntx.github.io/react-native-reflect) that works on Web and Native devices.
 
 Our photo album will display images in a grid with variable number of columns, image aspect ratio, grid separation, etc. all in a responsive manner.
 

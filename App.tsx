@@ -1,9 +1,26 @@
 import React, { useEffect, useState } from "react";
-import { SafeAreaView, ActivityIndicator } from "react-native";
+import { View, SafeAreaView, ActivityIndicator } from "react-native";
 import Axios from "axios";
-import { useStyled } from "react-native-reflect";
+import {
+  styled,
+  useStyled,
+  defaultTheme,
+  ThemeProvider,
+  Theme,
+} from "react-native-reflect";
+
+const theme: Theme = {
+  ...defaultTheme,
+  colors: { gray0: "#EAEBEE" },
+  space: [0, 2, 4, 8, 16, 20, 32, 64, 128, 256],
+  sizes: [0, 2, 4, 8, 16, 20, 32, 64, 128, 256],
+  radii: [0, 15, 30],
+};
+
+console.log("defaultTheme", defaultTheme);
 
 import ImageGrid from "./src/ImageGrid";
+import CategoriesBar from "./src/CategoriesBar";
 
 // Items used by ImageGrid, contains list of images.
 type Items = { links: [{ href: string }] }[];
@@ -17,6 +34,11 @@ type AxiosData = {
 
 const GET_GALAXY_IMAGES =
   "https://images-api.nasa.gov/search?q=spiral%20galaxies&media_type=image";
+
+const Container = styled(View, {
+  marginRight: [0, 7, 9],
+  marginLeft: [0, 7, 9],
+});
 
 export default function App() {
   const [isLoading, setLoading] = useState(true);
@@ -46,17 +68,22 @@ export default function App() {
 
   // After loading is done "isLoading", we render our images using <ImageGrid/>
   return (
-    <SafeAreaView>
-      {isLoading ? (
-        <ActivityIndicator />
-      ) : (
-        <ImageGrid
-          data={data}
-          numColumns={attrs.numColumns}
-          aspectRatio={attrs.imageAspectRatio}
-          gridGap={attrs.gridGap}
-        />
-      )}
-    </SafeAreaView>
+    <ThemeProvider value={theme}>
+      <SafeAreaView>
+        {isLoading ? (
+          <ActivityIndicator />
+        ) : (
+          <Container>
+            <CategoriesBar />
+            <ImageGrid
+              data={data}
+              numColumns={attrs.numColumns}
+              aspectRatio={attrs.imageAspectRatio}
+              gridGap={attrs.gridGap}
+            />
+          </Container>
+        )}
+      </SafeAreaView>
+    </ThemeProvider>
   );
 }

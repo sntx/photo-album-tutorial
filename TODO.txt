@@ -1,0 +1,11 @@
+Part 3
+  - Name of App: Andromeda
+  - Slogan: Interstellar Image Gallery
+
+TODO: make svg logo
+
+TODO: think of layout for tutorial, one page or multiple with react navigation?
+
+More info on search API https://images.nasa.gov/docs/images.nasa.gov_api_docs.pdf
+
+Different layouts for mobile and web
