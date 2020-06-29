@@ -43,16 +43,24 @@ const Container = styled(View, {
 export default function App() {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState<Items>([]);
+  const [query, setQuery] = useState(GET_GALAXY_IMAGES);
+
+  const createQuery = (terms) => {
+    const encodeTerms = (terms || "Andromeda").replace(/\s/g, "%20");
+    setQuery(
+      `https://images-api.nasa.gov/search?q=${encodeTerms}&media_type=image`
+    );
+  };
 
   // Get our data
   useEffect(() => {
-    Axios.get<AxiosData>(GET_GALAXY_IMAGES)
+    Axios.get<AxiosData>(query)
       .then(({ data }) => {
         setData(data.collection.items);
       })
       .catch((error) => console.error(error))
       .finally(() => setLoading(false));
-  }, []);
+  }, [query]);
 
   // Responsive values
   const { attrs } = useStyled({
@@ -74,7 +82,7 @@ export default function App() {
           <ActivityIndicator />
         ) : (
           <Container>
-            <CategoriesBar />
+            <CategoriesBar onChange={createQuery} />
             <ImageGrid
               data={data}
               numColumns={attrs.numColumns}
