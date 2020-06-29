@@ -20,7 +20,7 @@ const theme: Theme = {
 console.log("defaultTheme", defaultTheme);
 
 import ImageGrid from "./src/ImageGrid";
-import CategoriesBar from "./src/CategoriesBar";
+import SearchTerms from "./src/SearchTerms";
 
 // Items used by ImageGrid, contains list of images.
 type Items = { links: [{ href: string }] }[];
@@ -32,21 +32,23 @@ type AxiosData = {
   };
 };
 
-const GET_GALAXY_IMAGES =
-  "https://images-api.nasa.gov/search?q=spiral%20galaxies&media_type=image";
+const DEFAULT_QUERY =
+  "https://images-api.nasa.gov/search?q=galaxies&media_type=image";
 
 const Container = styled(View, {
-  marginRight: [0, 7, 9],
-  marginLeft: [0, 7, 9],
+  marginRight: [2, 7, 9],
+  marginLeft: [2, 7, 9],
 });
 
 export default function App() {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState<Items>([]);
-  const [query, setQuery] = useState(GET_GALAXY_IMAGES);
+  const [query, setQuery] = useState(DEFAULT_QUERY);
 
   const createQuery = (terms) => {
-    const encodeTerms = (terms || "Andromeda").replace(/\s/g, "%20");
+    if (!terms) return setQuery(DEFAULT_QUERY);
+
+    const encodeTerms = terms.replace(/\s/g, "%20");
     setQuery(
       `https://images-api.nasa.gov/search?q=${encodeTerms}&media_type=image`
     );
@@ -82,7 +84,7 @@ export default function App() {
           <ActivityIndicator />
         ) : (
           <Container>
-            <CategoriesBar onChange={createQuery} />
+            <SearchTerms onChange={createQuery} />
             <ImageGrid
               data={data}
               numColumns={attrs.numColumns}
