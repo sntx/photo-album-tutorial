@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import _ from "lodash";
 import { Text, View, TouchableOpacity } from "react-native";
-
 import { styled } from "react-native-reflect";
 
 const SEARCH_TERMS = [
@@ -16,19 +15,19 @@ const SEARCH_TERMS = [
   "Cigar Galaxy",
   "Sculptor Galaxy",
   "Sunflower Galaxy",
-  "Whirlpool Galaxy",
 ];
 
 type OnPress = () => void;
-type TermButtonProps = { title: string; onPress: OnPress; active: boolean };
+type ButtonProps = { title: string; onPress: OnPress; active: boolean };
+type SearchTermsProps = { onChange: (term: string) => void };
 
 /**
  * Renders single search term item as a styled TouchableOpacity component.
  *
- * TermButton style values are responsive and theme-based, look at
+ * Button style values are responsive and theme-based, look at
  * comments below for more info
  */
-const TermButton = ({ title, onPress, active }: TermButtonProps) => {
+const Button = ({ title, onPress, active }: ButtonProps) => {
   const Styled = styled(TouchableOpacity, {
     // themed value -> 5 -> theme.space[5] = 20
     padding: 5,
@@ -38,8 +37,8 @@ const TermButton = ({ title, onPress, active }: TermButtonProps) => {
     marginBottom: 3,
     borderRadius: 1,
     borderWidth: 0,
-    borderColor: "gray0",
-    backgroundColor: active ? "primary0" : undefined,
+    borderColor: "lightGray",
+    backgroundColor: active ? "highlight" : undefined,
   });
 
   return (
@@ -49,37 +48,20 @@ const TermButton = ({ title, onPress, active }: TermButtonProps) => {
   );
 };
 
-type RenderItem = ({
-  item,
-  index,
-}: {
-  item: string;
-  index: number;
-}) => JSX.Element;
-type TermButtonsProps = { data: string[]; renderItem: RenderItem };
-
 /**
  * Renders search terms buttons as follows:
  * - smaller screens: full width columns (one search term per column)
  * - larger  screens: wrapped rows (search termns next to each other in a row)
  */
-const TermButtons = ({ data, renderItem }: TermButtonsProps) => {
-  const Styled = styled(View, {
-    flex: 1,
-    // themed value -> 3 -> theme.space[3] = 8
-    marginTop: 3,
-    // "column" on smaller screens, "row" on larger screens
-    flexDirection: ["column", "row"],
-    // "nowrap" on smaller screens, "wrap" on larger screens
-    flexWrap: ["nowrap", "wrap"],
-  });
-
-  return (
-    <Styled>{_.map(data, (item, index) => renderItem({ item, index }))}</Styled>
-  );
-};
-
-type SearchTerms = { onChange: (term: string) => void };
+const Container = styled(View, {
+  // flex: 1,
+  // themed value -> 3 -> theme.space[3] = 8
+  marginTop: 3,
+  // "column" on smaller screens, "row" on larger screens
+  flexDirection: ["column", "row"],
+  // "nowrap" on smaller screens, "wrap" on larger screens
+  flexWrap: ["nowrap", "wrap"],
+});
 
 /**
  * Renders search terms as a list of buttons.
@@ -87,7 +69,7 @@ type SearchTerms = { onChange: (term: string) => void };
  * - Tapping on a selected button, de-selects it and shows all other buttons
  * - onChange(term) gets called on term selection updates with the updated term
  */
-export default function SearchTerms({ onChange }: SearchTerms) {
+export default function SearchTerms({ onChange }: SearchTermsProps) {
   const [selected, setSelected] = useState(-1); // index of selected search term
 
   const onPress = (index: number) => {
@@ -100,23 +82,20 @@ export default function SearchTerms({ onChange }: SearchTerms) {
     onChange(selected < 0 ? "" : SEARCH_TERMS[selected]);
   }, [selected]);
 
-  const renderItem = ({ item, index }: { item: string; index: number }) => {
-    return (
-      <TermButton
-        onPress={() => onPress(index)}
-        title={item}
-        active={selected > -1}
-      />
-    );
-  };
+  // <  0 will render all search terms
+  // >= 0 will render only selected term
+  const renderData = selected < 0 ? SEARCH_TERMS : [SEARCH_TERMS[selected]];
 
   return (
-    <TermButtons
-      // <  0 will render all search terms
-      // >= 0 will render only selected term
-      data={selected < 0 ? SEARCH_TERMS : [SEARCH_TERMS[selected]]}
-      renderItem={renderItem}
-    />
+    <Container>
+      {_.map(renderData, (title, index) => (
+        <Button
+          title={title}
+          onPress={() => onPress(index)}
+          active={selected > -1}
+          key={index}
+        />
+      ))}
+    </Container>
   );
 }
-
