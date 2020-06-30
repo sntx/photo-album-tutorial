@@ -9,6 +9,9 @@ import {
   Theme,
 } from "react-native-reflect";
 
+import ImageGrid from "./src/ImageGrid";
+import SearchTerms from "./src/SearchTerms";
+
 const theme: Theme = {
   ...defaultTheme,
   colors: { lightGray: "#EAEBEE", highlight: "#E9F0FE" },
@@ -16,9 +19,6 @@ const theme: Theme = {
   sizes: [0, 2, 4, 8, 16, 20, 32, 64, 128, 256],
   radii: [0, 15, 30],
 };
-
-import ImageGrid from "./src/ImageGrid";
-import SearchTerms from "./src/SearchTerms";
 
 // Items used by ImageGrid, contains list of images.
 type Items = { links: [{ href: string }] }[];
@@ -46,7 +46,7 @@ export default function App() {
   const [data, setData] = useState<Items>([]);
   const [query, setQuery] = useState("");
 
-  // Create and set query based on terms
+  // Create and set search query using terms argument
   const createQuery = (terms: string) => {
     if (!terms) return setQuery("");
 
@@ -74,16 +74,18 @@ export default function App() {
   }, [query]);
 
   // Responsive values
-  const { attrs } = useStyled({
+  const { attrs, styles } = useStyled({
+    styles: {
+      // small  screens: 2 -> theme.space[2] = 4
+      // medium screens: 3 -> theme.space[7] = 8
+      // medium screens: 4 -> theme.space[9] = 16
+      gridGap: { margin: [2, 3, 4] },
+    },
     attrs: {
       // 1 on small screens, 3 on medium screens, 4 on large screens
       numColumns: [1, 3, 4],
       // 4/3 on small screens, 1 on medium and large screens
       imageAspectRatio: [4 / 3, 1],
-      // 5 on small screens, 10 on medium screens, 20 on large screens
-      // STODO get these values from theme theme.space[2], theme.space[3] and
-      // theme.space[4] or get these values from styles : grid : { margin : [2,3,4] }
-      gridGap: [5, 10, 20],
     },
   });
 
@@ -100,7 +102,7 @@ export default function App() {
               data={data}
               numColumns={attrs.numColumns}
               aspectRatio={attrs.imageAspectRatio}
-              gridGap={attrs.gridGap}
+              gridGap={styles.gridGap.margin as number}
             />
           )}
         </Container>

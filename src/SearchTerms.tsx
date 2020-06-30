@@ -22,6 +22,21 @@ type ButtonProps = { title: string; onPress: OnPress; active: boolean };
 type SearchTermsProps = { onChange: (term: string) => void };
 
 /**
+ * Renders search terms buttons as follows:
+ * - smaller screens: full width columns (one search term per column)
+ * - larger  screens: wrapped rows (search termns next to each other in a row)
+ */
+const Container = styled(View, {
+  // flex: 1,
+  // themed value -> 3 -> theme.space[3] = 8
+  marginTop: 3,
+  // "column" on smaller screens, "row" on larger screens
+  flexDirection: ["column", "row"],
+  // "nowrap" on smaller screens, "wrap" on larger screens
+  flexWrap: ["nowrap", "wrap"],
+});
+
+/**
  * Renders single search term item as a styled TouchableOpacity component.
  *
  * Button style values are responsive and theme-based, look at
@@ -47,21 +62,6 @@ const Button = ({ title, onPress, active }: ButtonProps) => {
     </Styled>
   );
 };
-
-/**
- * Renders search terms buttons as follows:
- * - smaller screens: full width columns (one search term per column)
- * - larger  screens: wrapped rows (search termns next to each other in a row)
- */
-const Container = styled(View, {
-  // flex: 1,
-  // themed value -> 3 -> theme.space[3] = 8
-  marginTop: 3,
-  // "column" on smaller screens, "row" on larger screens
-  flexDirection: ["column", "row"],
-  // "nowrap" on smaller screens, "wrap" on larger screens
-  flexWrap: ["nowrap", "wrap"],
-});
 
 /**
  * Renders search terms as a list of buttons.

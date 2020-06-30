@@ -2,6 +2,8 @@ Part 3
   - Name of App: Andromeda
   - Slogan: Interstellar Image Gallery
 
+TODO: rename Reflect in docs with link
+
 TODO: make svg logo
 
 TODO: think of layout for tutorial, one page or multiple with react navigation?
