@@ -11,6 +11,7 @@ import {
 
 import ImageGrid from "./src/ImageGrid";
 import SearchTerms from "./src/SearchTerms";
+import FullWidthImage from "./src/FullWidthImage";
 
 const theme: Theme = {
   ...defaultTheme,
@@ -19,6 +20,9 @@ const theme: Theme = {
   sizes: [0, 2, 4, 8, 16, 20, 32, 64, 128, 256],
   radii: [0, 15, 30],
 };
+
+const COVER_IMAGE_URI =
+  "https://images-assets.nasa.gov/image/0700064/0700064~medium.jpg";
 
 // Items used by ImageGrid, contains list of images.
 type Items = { links: [{ href: string }] }[];
@@ -86,25 +90,35 @@ export default function App() {
       numColumns: [1, 3, 4],
       // 4/3 on small screens, 1 on medium and large screens
       imageAspectRatio: [4 / 3, 1],
+      // only show cover image on small screens
+      displayHomeImg: [false, true],
     },
   });
 
-  // After loading is done "isLoading", we render our images using <ImageGrid/>
   return (
     <ThemeProvider value={theme}>
       <SafeAreaView>
         <Container>
           <SearchTerms onChange={createQuery} />
-          {isLoading ? (
-            <MyActivityIndicator />
-          ) : (
-            <ImageGrid
-              data={data}
-              numColumns={attrs.numColumns}
-              aspectRatio={attrs.imageAspectRatio}
-              gridGap={styles.gridGap.margin as number}
-            />
-          )}
+          {(() => {
+            if (isLoading) return <MyActivityIndicator />;
+
+            // display cover image only on larger screens when there is no
+            // other data to display
+            if (data.length === 0 && attrs.displayHomeImg)
+              return (
+                <FullWidthImage aspectRatio={16 / 9} uri={COVER_IMAGE_URI} />
+              );
+
+            return (
+              <ImageGrid
+                data={data}
+                numColumns={attrs.numColumns}
+                aspectRatio={attrs.imageAspectRatio}
+                gridGap={styles.gridGap.margin as number}
+              />
+            );
+          })()}
         </Container>
       </SafeAreaView>
     </ThemeProvider>

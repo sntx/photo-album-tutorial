@@ -58,7 +58,7 @@ Finally, wrap the return value of `App()` with `<ThemeProvider value={theme}`:
 return <ThemeProvider value={theme}>...</ThemeProvider>;
 ```
 
-Now, we'll be able to access our theme from Reflect's `styled()` or `useStyled()` methods. For example if we create a component using `const Container = styled(View, { padding: 2})`, the value `2` of `padding` will be interpreted as `theme.space[2]` which is equal to `4`.
+Now, we'll be able to access our theme from Reflect's `styled()` or `useStyled()` methods. For example if we create a component using `const Container = styled(View, { padding: 2})`, the value `2` of `padding` will be interpreted as as an index of `theme.space` array, as follows:`theme.space[2]` which is equal to `4`.
 
 ## Extending App's Functionality and UX
 
@@ -80,13 +80,15 @@ This is how our app will look after we add the search terms buttons:
 
 As you can see from the screen recordings above, we'll also make our buttons layout responsive. They will display as single full width rows (`flexDirection: "columns"`) on smaller screens and as wrapped boxes on larger screens (`flexDirection: "row", flexWrap: "wrap"`)
 
-To style these new components we'll use [Reflect's styled()](https://sntx.github.io/react-native-reflect/#/?id=styled) function.
+To style these new components we'll use [Reflect's styled()](https://sntx.github.io/react-native-reflect/#/?id=styled) function. Let's get started!
 
 Create a new file: `src/SearchTerms.tsx`, add the following lines to it, and follow the comments in the code for an explantion of the concepts and methods used.
 
 `Container` is the simplest component we are creating using Reflect's `styled()`.
 
 `Button` is a more complex component, it takes an `active` prop which changes it's color, an `onPress` callback and a `title`. When creating more complex components with `styled()`, just wrap it with a functional component and add all the necessary logic, composition, etc. there.
+
+### `src/SearchTerms.tsx:`
 
 ```typescript
 import React, { useState, useEffect } from "react";
@@ -193,6 +195,8 @@ export default function SearchTerms({ onChange }: SearchTermsProps) {
 ```
 
 Now, replace the contents of `App.tsx` with the following. Again, following the comments in the code for the necessary explanations.
+
+### `App.tsx`:
 
 ```typescript
 import React, { useEffect, useState } from "react";
@@ -307,5 +311,105 @@ export default function App() {
     </ThemeProvider>
   );
 }
-
 ```
+
+Next, launch your application on a native device (or simulator) and on a web browser. The app you should look like the screen recordings above.
+
+## Conditional Content
+
+When there is no search selected, our UI looks quite empty on larger screens. Let's add a fixed full size image below the search buttons only on larger screens. On smaller screens we won't show the fixed image since the buttons are taking most of the screen space.
+
+React Native Images require explicit width and height values. To take care of this, we'll create a new component (`FullWidthImage`) for rendering our full width image. `FullWidthImage` will determine it's width from it's parent component and it's height by dividing its width by an aspect ratio value.
+
+### `src/FullWidthImage.tsx`:
+
+```typescript
+import React, { useState } from "react";
+import { View, Image, LayoutChangeEvent } from "react-native";
+
+type FullWidthImageProps = { uri: string; aspectRatio: number };
+
+/**
+ * Renders full width image by inferring its width from the Image's parent
+ * component and its height using an aspect ratio value.
+ */
+export default function FullWidthImage({
+  uri,
+  aspectRatio = 1,
+}: FullWidthImageProps) {
+  const [width, setWidth] = useState(0);
+
+  // set Image's width to the width of its parent component
+  const onLayout = (obj: LayoutChangeEvent) =>
+    setWidth(obj.nativeEvent.layout.width);
+
+  return (
+    <View onLayout={onLayout}>
+      <Image style={{ width, height: width / aspectRatio }} source={{ uri }} />
+    </View>
+  );
+}
+```
+
+Now, add the following lines to `App.tsx`, to use the new component we created and to add the logic to display our full width image only on larger screens.
+
+```typescript
+import FullWidthImage from "./src/FullWidthImage";
+```
+
+```typescript
+const COVER_IMAGE_URI =
+  "https://images-assets.nasa.gov/image/0700064/0700064~medium.jpg";
+```
+
+We can very easily create conditional rendered components using Reflect responsive attrs. Below, add `attrs.displayHomeImg: [false, true]` which will be `false` on smaller screens and `true` on larger screens.
+
+```typescript
+  const { attrs, styles } = useStyled({
+    ...
+    attrs: {
+      ...
+      // only show cover image on small screens
+      displayHomeImg: [false, true],
+    },
+  });
+```
+
+Then, let's use our newly created `attrs.displayHomeImg` value on our App's `render()` method.
+
+```typescript
+return (
+  <ThemeProvider value={theme}>
+    <SafeAreaView>
+      <Container>
+        <SearchTerms onChange={createQuery} />
+        {(() => {
+          if (isLoading) return <MyActivityIndicator />;
+
+          // display cover image only on larger screens when there is no
+          // other data to display
+          if (data.length === 0 && attrs.displayHomeImg)
+            return (
+              <FullWidthImage aspectRatio={16 / 9} uri={COVER_IMAGE_URI} />
+            );
+
+          return (
+            <ImageGrid
+              data={data}
+              numColumns={attrs.numColumns}
+              aspectRatio={attrs.imageAspectRatio}
+              gridGap={styles.gridGap.margin as number}
+            />
+          );
+        })()}
+      </Container>
+    </SafeAreaView>
+  </ThemeProvider>
+);
+```
+
+Your App should look like this:
+
+![Screens 07](./screenshots/screens-07.jpg)
+
+## Final Touches
