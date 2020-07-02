@@ -11,12 +11,14 @@ After finishing the tutorial you will learn how to:
 - Create a responsive image gallery (Part 1)
 - Create a re-usable, customizable image gallery component (Part 2)
 - Create universal (native & web), responsive and theme-based UIs! (Part 3)
+- Create a responsive navigation bar and page layout (Part 4)
 
 ## Contents
 
 - [Part 1 - Responsive Image Grid](./PART1.md)
 - [Part 2 - Improved Responsive Image Grid](./PART2.md)
 - [Part 3 - Responsive UI and Theme](./PART3.md)
+- [Part 4 - Responsive UI Elements and Layout](./PART4.md)
 
 ## Theming
 
@@ -69,13 +71,13 @@ This is how our app will look after we add the search terms buttons:
 **On Mobile:**
 
 <div align="center" style="background-color: white; padding-top:8px">
-  <img style="margin-right: auto; margin-left: auto;" src="./screenshots/iphone-animation-01.gif" width="200"/>
+  <img style="margin-right: auto; margin-left: auto;" src="https://github.com/sntx/photo-album-tutorial/raw/master/docs/screenshots/iphone-animation-01.gif" width="200"/>
 </div>
 
 **On Web:**
 
 <div align="center" style="background-color: white">
-  <img style="margin-right: auto; margin-left: auto;" src="./screenshots/web-animation-01.gif" />
+  <img style="margin-right: auto; margin-left: auto;" src="https://github.com/sntx/photo-album-tutorial/raw/master/docs/screenshots/web-animation-01.gif" />
 </div>
 
 As you can see from the screen recordings above, we'll also make our buttons layout responsive. They will display as single full width rows (`flexDirection: "columns"`) on smaller screens and as wrapped boxes on larger screens (`flexDirection: "row", flexWrap: "wrap"`)
@@ -313,103 +315,15 @@ export default function App() {
 }
 ```
 
-Next, launch your application on a native device (or simulator) and on a web browser. The app you should look like the screen recordings above.
+Launch your application on a native device (or simulator) and on a web browser. The app you should look like the screen recordings above.
 
-## Conditional Content
+That's all for Part 3! in this section we defined a global theme object for our application and created several components with `styled()` that derive their styling values from the theme. We also creatd different layouts for smaller and larger screens, including conditional content that only gets rendered on larger screens.
 
-When there is no search selected, our UI looks quite empty on larger screens. Let's add a fixed full size image below the search buttons only on larger screens. On smaller screens we won't show the fixed image since the buttons are taking most of the screen space.
+### Next Steps
 
-React Native Images require explicit width and height values. To take care of this, we'll create a new component (`FullWidthImage`) for rendering our full width image. `FullWidthImage` will determine it's width from it's parent component and it's height by dividing its width by an aspect ratio value.
+On Part 4, we will finish creating our UI, we'll add a navigation bar, a better layout and improve the overall design of our app.
 
-### `src/FullWidthImage.tsx`:
+### Links
 
-```typescript
-import React, { useState } from "react";
-import { View, Image, LayoutChangeEvent } from "react-native";
-
-type FullWidthImageProps = { uri: string; aspectRatio: number };
-
-/**
- * Renders full width image by inferring its width from the Image's parent
- * component and its height using an aspect ratio value.
- */
-export default function FullWidthImage({
-  uri,
-  aspectRatio = 1,
-}: FullWidthImageProps) {
-  const [width, setWidth] = useState(0);
-
-  // set Image's width to the width of its parent component
-  const onLayout = (obj: LayoutChangeEvent) =>
-    setWidth(obj.nativeEvent.layout.width);
-
-  return (
-    <View onLayout={onLayout}>
-      <Image style={{ width, height: width / aspectRatio }} source={{ uri }} />
-    </View>
-  );
-}
-```
-
-Now, add the following lines to `App.tsx`, to use the new component we created and to add the logic to display our full width image only on larger screens.
-
-```typescript
-import FullWidthImage from "./src/FullWidthImage";
-```
-
-```typescript
-const COVER_IMAGE_URI =
-  "https://images-assets.nasa.gov/image/0700064/0700064~medium.jpg";
-```
-
-We can very easily create conditional rendered components using Reflect responsive attrs. Below, add `attrs.displayHomeImg: [false, true]` which will be `false` on smaller screens and `true` on larger screens.
-
-```typescript
-  const { attrs, styles } = useStyled({
-    ...
-    attrs: {
-      ...
-      // only show cover image on small screens
-      displayHomeImg: [false, true],
-    },
-  });
-```
-
-Then, let's use our newly created `attrs.displayHomeImg` value on our App's `render()` method.
-
-```typescript
-return (
-  <ThemeProvider value={theme}>
-    <SafeAreaView>
-      <Container>
-        <SearchTerms onChange={createQuery} />
-        {(() => {
-          if (isLoading) return <MyActivityIndicator />;
-
-          // display cover image only on larger screens when there is no
-          // other data to display
-          if (data.length === 0 && attrs.displayHomeImg)
-            return (
-              <FullWidthImage aspectRatio={16 / 9} uri={COVER_IMAGE_URI} />
-            );
-
-          return (
-            <ImageGrid
-              data={data}
-              numColumns={attrs.numColumns}
-              aspectRatio={attrs.imageAspectRatio}
-              gridGap={styles.gridGap.margin as number}
-            />
-          );
-        })()}
-      </Container>
-    </SafeAreaView>
-  </ThemeProvider>
-);
-```
-
-Your App should look like this:
-
-![Screens 07](./screenshots/screens-07.jpg)
-
-## Final Touches
+- Tutorial's source code: https://github.com/sntx/photo-album-tutorial
+- React Native Reflect: https://sntx.github.io/react-native-reflect

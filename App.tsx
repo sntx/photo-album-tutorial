@@ -8,6 +8,7 @@ import {
   ThemeProvider,
   Theme,
 } from "react-native-reflect";
+import { Ionicons } from "@expo/vector-icons";
 
 import ImageGrid from "./src/ImageGrid";
 import SearchTerms from "./src/SearchTerms";
@@ -40,6 +41,26 @@ const Container = styled(View, {
   // medium screens: 9 -> theme.space[9] = 256
   marginRight: [2, 7, 9],
   marginLeft: [2, 7, 9],
+});
+
+// STODONEXT replace SafeAreaView by SafeAreaContext so shadows look good on iOS
+//           Move Header to its own component
+const Header = styled(View, {
+  backgroundColor: "white",
+  height: 7,
+  borderWidth: 0,
+  borderColor: "lightGray",
+  marginBottom: 4,
+  paddingLeft: 4,
+  paddingRight: 5,
+  flexDirection: "row",
+  alignItems: "center",
+  justifyContent: "space-between",
+  shadowColor: "black",
+  shadowOffset: { width: 0, height: 1 },
+  shadowOpacity: 0.3,
+  shadowRadius: 8,
+  elevation: 1,
 });
 
 // marginTop: 7 = theme.space[7] = 64
@@ -98,6 +119,10 @@ export default function App() {
   return (
     <ThemeProvider value={theme}>
       <SafeAreaView>
+        <Header>
+          <Ionicons name="md-planet" size={32} color="black" />
+          <Ionicons name="md-menu" size={32} color="black" />
+        </Header>
         <Container>
           <SearchTerms onChange={createQuery} />
           {(() => {
