@@ -93,12 +93,8 @@ return (
 
 Your App should look like this:
 
-![Screens 07](./screenshots/screens-07.jpg)
+![Screens 08](./screenshots/screens-08.jpg)
 
 ## Final Touches
 
 Let's add a header with a logo and some other elements:
-
-```bash
-yarn add react-native-vector-icons
-```
