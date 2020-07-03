@@ -316,7 +316,7 @@ That's all for Part 3! in this section we defined a global theme object for our 
 
 ### Next Steps
 
-On Part 4, we will finish creating our UI, we'll add a navigation bar, a better layout and improve the overall design of our app.
+On [Part 4](./PART4.md), we will finish creating our UI, we'll add a navigation bar, a better layout and improve the overall design of our app.
 
 ### Links
 
