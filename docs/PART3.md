@@ -2,27 +2,22 @@
 
 ## Description
 
-The following tutorial explains step by step how to create a responsive photo album application with React Native and [React Native Reflect](https://sntx.github.io/react-native-reflect) that works on Web and Native devices.
+The following tutorial explains step by step how to create a responsive photo album application with [React Native Reflect](https://sntx.github.io/react-native-reflect) that works on Web and Native devices.
 
-Our photo album will display images in a grid with variable number of columns, image aspect ratio, grid separation, etc. all in a responsive manner.
+The whole application will be styled in a responsive manner, featuring:
 
-After finishing the tutorial you will learn how to:
-
-- Create a responsive image gallery (Part 1)
-- Create a re-usable, customizable image gallery component (Part 2)
-- Create universal (native & web), responsive and theme-based UIs! (Part 3)
-- Create a responsive navigation bar and page layout (Part 4)
+- Image Grid with responsive number of columns, image aspect ratio and grid separation.
+- Conditional content rendering, based on screen size.
+- Responsive style attributes such as sizes, spacing and shadows.
 
 ## Contents
 
 - [Part 1 - Responsive Image Grid](./PART1.md)
 - [Part 2 - Improved Responsive Image Grid](./PART2.md)
 - [Part 3 - Responsive UI and Theme](./PART3.md)
-- [Part 4 - Responsive UI Elements and Layout](./PART4.md)
+- [Part 4 - Conditional Rendering and Improved UI](./PART4.md)
 
 ## Theming
-
-**NOTE: this is Part 3 of this tutorial series. To continue from here you will need to have completed [Part 2](./PART2.md)**
 
 On [Part 2](./PART2.md) of this tutorial series we finished building an image grid component with responsive number of columns, grid spacing and aspect ratio. On Part 3 we will add the option to query differnt images of various galaxies and style the rest of the app. Let's start by exploring React Native Reflect's theme functionality.
 
@@ -326,4 +321,6 @@ On Part 4, we will finish creating our UI, we'll add a navigation bar, a better 
 ### Links
 
 - Tutorial's source code: https://github.com/sntx/photo-album-tutorial
-- React Native Reflect: https://sntx.github.io/react-native-reflect
+- React Native Reflect Docs: https://sntx.github.io/react-native-reflect
+- Let's connect on Twitter: https://twitter.com/sntx_dev
+- Reflect's Twitter: https://twitter.com/rnreflect

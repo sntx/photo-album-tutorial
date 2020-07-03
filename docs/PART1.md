@@ -2,21 +2,20 @@
 
 ## Description
 
-The following tutorial explains step by step how to create a responsive photo album application with React Native and [React Native Reflect](https://sntx.github.io/react-native-reflect) that works on Web and Native devices.
+The following tutorial explains step by step how to create a responsive photo album application with [React Native Reflect](https://sntx.github.io/react-native-reflect) that works on Web and Native devices.
 
-Our photo album will display images in a grid with variable number of columns, image aspect ratio, grid separation, etc. all in a responsive manner.
+The whole application will be styled in a responsive manner, featuring:
 
-After finishing the tutorial you will learn how to:
-
-- Create a responsive image gallery (Part 1)
-- Create a re-usable, customizable image gallery component (Part 2)
-- Create univeral, responsive and theme-based UIs! (Part 3)
+- Image Grid with responsive number of columns, image aspect ratio and grid separation.
+- Conditional content rendering, based on screen size.
+- Responsive style attributes such as sizes, spacing and shadows.
 
 ## Contents
 
 - [Part 1 - Responsive Image Grid](./PART1.md)
 - [Part 2 - Improved Responsive Image Grid](./PART2.md)
 - [Part 3 - Responsive UI and Theme](./PART3.md)
+- [Part 4 - Conditional Rendering and Improved UI](./PART4.md)
 
 ## Create a new Expo app
 
@@ -241,7 +240,9 @@ And that's all for Part 1! So far we have created an image gallery that works on
 
 On Part 2, we will add more options to our image gallery, such as spacing between images. We will also convert our image gallery into it's own component!
 
-## Links
+### Links
 
 - Tutorial's source code: https://github.com/sntx/photo-album-tutorial
-- React Native Reflect: https://sntx.github.io/react-native-reflect
+- React Native Reflect Docs: https://sntx.github.io/react-native-reflect
+- Let's connect on Twitter: https://twitter.com/sntx_dev
+- Reflect's Twitter: https://twitter.com/rnreflect

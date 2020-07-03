@@ -29,3 +29,10 @@ cd photo-album-tutorial
 yarn
 yarn start
 ```
+
+### Links
+
+- React Native Reflect Docs: https://sntx.github.io/react-native-reflect
+- React Native Reflect GitHub: https://github.com/sntx/react-native-reflect
+- Let's connect on Twitter: https://twitter.com/sntx_dev
+- Reflect's Twitter: https://twitter.com/rnreflect

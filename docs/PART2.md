@@ -2,25 +2,22 @@
 
 ## Description
 
-The following tutorial explains step by step how to create a responsive photo album application with React Native and [React Native Reflect](https://sntx.github.io/react-native-reflect) that works on Web and Native devices.
+The following tutorial explains step by step how to create a responsive photo album application with [React Native Reflect](https://sntx.github.io/react-native-reflect) that works on Web and Native devices.
 
-Our photo album will display images in a grid with variable number of columns, image aspect ratio, grid separation, etc. all in a responsive manner.
+The whole application will be styled in a responsive manner, featuring:
 
-After finishing the tutorial you will learn how to:
-
-- Create a responsive image gallery (Part 1)
-- Create a re-usable, customizable image gallery component (Part 2)
-- Create universal, responsive and theme-based UIs! (Part 3)
+- Image Grid with responsive number of columns, image aspect ratio and grid separation.
+- Conditional content rendering, based on screen size.
+- Responsive style attributes such as sizes, spacing and shadows.
 
 ## Contents
 
 - [Part 1 - Responsive Image Grid](./PART1.md)
 - [Part 2 - Improved Responsive Image Grid](./PART2.md)
 - [Part 3 - Responsive UI and Theme](./PART3.md)
+- [Part 4 - Conditional Rendering and Improved UI](./PART4.md)
 
 ## Time for Math!
-
-**NOTE: this is Part 2 of this tutorial series. To continue from here you will need to have completed [Part 1](./PART1.md)**
 
 On [Part 1](./PART1.md) of this tutorial series we displayed a grid of images with a fixed aspect ratio, on part 2 we will add spacing to our grid, similar to `grid-spacing`'s `CSS` property. To do so we will calculate the explicit dimensions of the images based on the width of the container and the spacing. These calculations are required in React Native, since React Native requires explicit dimensions to be provided to Image components.
 
@@ -222,4 +219,6 @@ On Part 3, we will create a fully responsive UI, including page layouts, brandin
 ### Links
 
 - Tutorial's source code: https://github.com/sntx/photo-album-tutorial
-- React Native Reflect: https://sntx.github.io/react-native-reflect
+- React Native Reflect Docs: https://sntx.github.io/react-native-reflect
+- Let's connect on Twitter: https://twitter.com/sntx_dev
+- Reflect's Twitter: https://twitter.com/rnreflect
