@@ -22,3 +22,10 @@ The whole application will be styled in a responsive manner, featuring:
 ## Installation
 
 Prefer to skip the tutorial and just experiment with the code? Then, clone this repo and run it with Expo.
+
+```bash
+git clone --depth 1 https://github.com/sntx/photo-album-tutorial.git
+cd photo-album-tutorial
+yarn
+yarn start
+```
