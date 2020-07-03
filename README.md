@@ -18,3 +18,7 @@ The whole application will be styled in a responsive manner, featuring:
 - [Part 2 - Improved Responsive Image Grid](./docs/PART2.md)
 - [Part 3 - Responsive UI and Theme](./docs/PART3.md)
 - [Part 4 - Conditional Rendering and Improved UI](./docs/PART4.md)
+
+## Installation
+
+Prefer to skip the tutorial and just experiment with the code? Then, clone this repo and run it with Expo.
