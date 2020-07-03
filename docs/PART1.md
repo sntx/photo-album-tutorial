@@ -238,7 +238,7 @@ And that's all for Part 1! So far we have created an image gallery that works on
 
 ## Next Steps
 
-On Part 2, we will add more options to our image gallery, such as spacing between images. We will also convert our image gallery into it's own component!
+On [Part 2](./PART2.md), we will add more options to our image gallery, such as spacing between images. We will also convert our image gallery into it's own component!
 
 ### Links
 

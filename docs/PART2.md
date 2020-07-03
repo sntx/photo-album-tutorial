@@ -214,7 +214,7 @@ That's all for Part 2! So far we have a created a responsive Image gallery in Re
 
 ### Next Steps
 
-On Part 3, we will create a fully responsive UI, including page layouts, branding elements, etc. Stay tuned!
+On [Part 3](./PART3.md), we will create a fully responsive UI, including page layouts, branding elements, etc. Stay tuned!
 
 ### Links
 
