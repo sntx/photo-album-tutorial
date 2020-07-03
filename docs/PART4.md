@@ -1,3 +1,25 @@
+# Responsive UX Design with React Native Reflect (Part 3)
+
+## Description
+
+The following tutorial explains step by step how to create a responsive photo album application with React Native and [React Native Reflect](https://sntx.github.io/react-native-reflect) that works on Web and Native devices.
+
+Our photo album will display images in a grid with variable number of columns, image aspect ratio, grid separation, etc. all in a responsive manner.
+
+After finishing the tutorial you will learn how to:
+
+- Create a responsive image gallery (Part 1)
+- Create a re-usable, customizable image gallery component (Part 2)
+- Create universal (native & web), responsive and theme-based UIs! (Part 3)
+- Create a responsive navigation bar and page layout (Part 4)
+
+## Contents
+
+- [Part 1 - Responsive Image Grid](./PART1.md)
+- [Part 2 - Improved Responsive Image Grid](./PART2.md)
+- [Part 3 - Responsive UI and Theme](./PART3.md)
+- [Part 4 - Responsive UI Elements and Layout](./PART4.md)
+
 ## Conditional Content
 
 When there is no search selected, our UI looks quite empty on larger screens. Let's add a fixed full size image below the search buttons only on larger screens. On smaller screens we won't show the fixed image since the buttons are taking most of the screen space.
@@ -45,7 +67,7 @@ const COVER_IMAGE_URI =
   "https://images-assets.nasa.gov/image/0700064/0700064~medium.jpg";
 ```
 
-We can very easily create conditional rendered components using Reflect responsive attrs. Below, add `attrs.displayHomeImg: [false, true]` which will be `false` on smaller screens and `true` on larger screens.
+We can very easily create conditional rendered components using [Reflect](https://sntx.github.io/react-native-reflect) responsive attrs. Below, add `attrs.displayHomeImg: [false, true]` which will be `false` on smaller screens and `true` on larger screens.
 
 ```typescript
   const { attrs, styles } = useStyled({
@@ -95,6 +117,157 @@ Your App should look like this:
 
 ![Screens 08](./screenshots/screens-08.jpg)
 
-## Final Touches
+## Navigation Bar
 
-Let's add a header with a logo and some other elements:
+Next, let's create a dummy navigation bar with a logo and some other elements. Add the following lines to `App.tsx`
+
+```typescript
+import { Ionicons } from "@expo/vector-icons";
+```
+
+```typescript
+const NavBar = styled(View, {
+  flexDirection: "row",
+  alignItems: "center",
+  justifyContent: "space-between",
+  backgroundColor: "white",
+  height: 7, // theme.sizes[7] = 64
+  borderWidth: 0, // theme.borderWidths[0] = 1
+  borderColor: "lightGray", // theme.colors["lightGray"] = "#EAEBEE"
+  marginBottom: 4, // theme.space[4] = 16
+  paddingLeft: 4, // etc.
+  paddingRight: 5,
+  shadowColor: "black",
+  shadowOffset: { width: 0, height: 1 },
+  shadowOpacity: 0.3,
+  shadowRadius: 8,
+  elevation: 1,
+});
+```
+
+```typescript
+  return (
+    <ThemeProvider value={theme}>
+      <SafeAreaView>
+        <NavBar>
+          <Ionicons name="md-planet" size={32} color="black" />
+          <Ionicons name="md-menu" size={32} color="black" />
+        </NavBar>
+        ...
+    </ThemeProvider>
+```
+
+![Screens 09](./screenshots/screens-09.jpg)
+
+Notice that `<NavBar>` renders its shadows below and above itself which looks bad on some mobile devices because of the top spacing created by `<SafeAreaView>`. One way to fix this is by using `react-native-safe-area-context` instead of `SafeAreaView`.
+
+To get native links working, install `react-native-safe-area-context` with `expo`:
+
+```bash
+expo install react-native-safe-area-context@latest
+```
+
+**NOTE: `react-native-safe-area-context` was having some issues for me with Expo 37, after I upgraded my Expo app to 38.0.0, the installation worked just fine.**
+
+Then, replace the following lines in `App.tsx`
+
+Remove `SafeAreView`, we'll use imports from `react-native-safe-area-context` insted:
+
+```typescript
+import { View, ActivityIndicator } from "react-native";
+...
+import {
+  SafeAreaProvider,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context";
+```
+
+Create a more complex `NavBar` component that applies shadows to a `Wrap` wrapper component and compensates for the top inset spacing with an empty `View` component. Read the comments in the code below for more info:
+
+```typescript
+const NavBar = ({ children }) => {
+  const insets = useSafeAreaInsets();
+
+  const Bar = styled(View, {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    backgroundColor: "white",
+    // theme.sizes[7] = 64
+    height: 7,
+    // theme.borderWidths[0] = 1
+    borderWidth: 0,
+    // since theme.borderWidths[0] is 1, we can use "px" suffix to ignore the
+    // theme. "0px" gets gets converted to 0 (number)
+    borderTopWidth: "0px",
+    // theme.colors["lightGray"] = "#EAEBEE"
+    borderColor: "lightGray",
+    paddingLeft: 4,
+    paddingRight: 5,
+  });
+
+  const Wrap = styled(View, {
+    // smaller screens: theme.space[2] = 4
+    // larger  screens: theme.space[4] = 16
+    marginBottom: [1, 4],
+    shadowColor: "black",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: [0.2, 0.3],
+    shadowRadius: [3, 10],
+    backgroundColor: "white",
+    elevation: [0.2, 0.8],
+  });
+
+  return (
+    <Wrap>
+      <View style={{ height: insets.top }} />
+      <Bar>{children}</Bar>
+    </Wrap>
+  );
+};
+```
+
+Let's adjust some other style values to make our app look better:
+
+```typescript
+const Container = styled(View, {
+  // small  screens: 2 -> theme.space[2] = 4
+  // medium screens: 7 -> theme.space[7] = 64
+  // medium screens: 8 -> theme.space[9] = 128
+  marginRight: [2, 7, 8],
+  marginLeft: [2, 7, 8],
+});
+```
+
+```typescript
+const SearchTermsWrap = styled(View, {
+  paddingBottom: [0, 4],
+});
+```
+
+Finally, let's update our main `render()` method:
+
+```typescript
+return (
+  <ThemeProvider value={theme}>
+    <SafeAreaProvider>
+      <NavBar>
+        <Ionicons name="md-planet" size={32} color="black" />
+        <Ionicons name="md-menu" size={32} color="black" />
+      </NavBar>
+      <Container>
+        <SearchTermsWrap>
+          <SearchTerms onChange={createQuery} />
+        </SearchTermsWrap>
+        ...
+      </Container>
+    </SafeAreaProvider>
+  </ThemeProvider>
+);
+```
+
+Your app should like like this:
+
+![Screens 10](./screenshots/screens-10.jpg)
+
+![Screens 11](./screenshots/screens-11.jpg)

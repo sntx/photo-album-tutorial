@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, SafeAreaView, ActivityIndicator } from "react-native";
+import { View, ActivityIndicator } from "react-native";
 import Axios from "axios";
 import {
   styled,
@@ -9,6 +9,10 @@ import {
   Theme,
 } from "react-native-reflect";
 import { Ionicons } from "@expo/vector-icons";
+import {
+  SafeAreaProvider,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context";
 
 import ImageGrid from "./src/ImageGrid";
 import SearchTerms from "./src/SearchTerms";
@@ -38,29 +42,54 @@ type AxiosData = {
 const Container = styled(View, {
   // small  screens: 2 -> theme.space[2] = 4
   // medium screens: 7 -> theme.space[7] = 64
-  // medium screens: 9 -> theme.space[9] = 256
-  marginRight: [2, 7, 9],
-  marginLeft: [2, 7, 9],
+  // medium screens: 8 -> theme.space[9] = 128
+  marginRight: [2, 7, 8],
+  marginLeft: [2, 7, 8],
 });
 
-// STODONEXT replace SafeAreaView by SafeAreaContext so shadows look good on iOS
-//           Move Header to its own component
-const Header = styled(View, {
-  backgroundColor: "white",
-  height: 7,
-  borderWidth: 0,
-  borderColor: "lightGray",
-  marginBottom: 4,
-  paddingLeft: 4,
-  paddingRight: 5,
-  flexDirection: "row",
-  alignItems: "center",
-  justifyContent: "space-between",
-  shadowColor: "black",
-  shadowOffset: { width: 0, height: 1 },
-  shadowOpacity: 0.3,
-  shadowRadius: 8,
-  elevation: 1,
+const NavBar = ({ children }) => {
+  const insets = useSafeAreaInsets();
+
+  const Bar = styled(View, {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    backgroundColor: "white",
+    // theme.sizes[7] = 64
+    height: 7,
+    // theme.borderWidths[0] = 1
+    borderWidth: 0,
+    // since theme.borderWidths[0] is 1, we can use "px" suffix to ignore the
+    // theme. "0px" gets gets converted to 0 (number)
+    borderTopWidth: "0px",
+    // theme.colors["lightGray"] = "#EAEBEE"
+    borderColor: "lightGray",
+    paddingLeft: 4,
+    paddingRight: 5,
+  });
+
+  const Wrap = styled(View, {
+    // smaller screens: theme.space[2] = 4
+    // larger  screens: theme.space[4] = 16
+    marginBottom: [1, 4],
+    shadowColor: "black",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: [0.2, 0.3],
+    shadowRadius: [3, 10],
+    backgroundColor: "white",
+    elevation: [0.2, 0.8],
+  });
+
+  return (
+    <Wrap>
+      <View style={{ height: insets.top }} />
+      <Bar>{children}</Bar>
+    </Wrap>
+  );
+};
+
+const SearchTermsWrap = styled(View, {
+  paddingBottom: [0, 4],
 });
 
 // marginTop: 7 = theme.space[7] = 64
@@ -118,13 +147,15 @@ export default function App() {
 
   return (
     <ThemeProvider value={theme}>
-      <SafeAreaView>
-        <Header>
+      <SafeAreaProvider>
+        <NavBar>
           <Ionicons name="md-planet" size={32} color="black" />
           <Ionicons name="md-menu" size={32} color="black" />
-        </Header>
+        </NavBar>
         <Container>
-          <SearchTerms onChange={createQuery} />
+          <SearchTermsWrap>
+            <SearchTerms onChange={createQuery} />
+          </SearchTermsWrap>
           {(() => {
             if (isLoading) return <MyActivityIndicator />;
 
@@ -145,7 +176,7 @@ export default function App() {
             );
           })()}
         </Container>
-      </SafeAreaView>
+      </SafeAreaProvider>
     </ThemeProvider>
   );
 }
