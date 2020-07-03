@@ -1,4 +1,4 @@
-# Responsive UX Design with React Native Reflect (Part 3)
+# Responsive UX Design with React Native Reflect (Part 4)
 
 ## Description
 
@@ -271,3 +271,15 @@ Your app should like like this:
 ![Screens 10](./screenshots/screens-10.jpg)
 
 ![Screens 11](./screenshots/screens-11.jpg)
+
+### The End
+
+Hope you enjoyed working with [Reflect](https://sntx.github.io/react-native-reflect). If you decide to use it in your projects, have questions or feedback, or just want to say hello, please write a comment below!
+
+
+### Links
+
+- Tutorial's source code: https://github.com/sntx/photo-album-tutorial
+- React Native Reflect Docs: https://sntx.github.io/react-native-reflect
+- Let's connect on Twitter: https://twitter.com/sntx_dev
+- Reflect's Twitter: https://twitter.com/rnreflect
